@@ -1,0 +1,297 @@
+# 🚫 JOMEBURGER TELEGRAM BOT GITIGNORE
+# Bu fayl Git-ga qaysi fayllarni track qilmaslikni aytadi
+# Production loyiha uchun professional gitignore
+
+# ================================
+# MAXFIY FAYLLAR (HECH QACHON GIT-GA COMMIT QILMANG!)
+# ================================
+
+# Environment variables - maxfiy ma'lumotlar
+.env
+.env.local
+.env.production
+.env.staging
+
+# Database backup fayllari
+*.sql
+*.db
+*.sqlite
+*.sqlite3
+
+# API keys va tokenlar
+*key*.txt
+*token*.txt
+*secret*.txt
+
+# ================================
+# PYTHON CACHE VA BYTECODE
+# ================================
+
+# Python bytecode fayllari
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# PyInstaller
+*.manifest
+*.spec
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+.pytest_cache/
+cover/
+
+# ================================
+# VIRTUAL ENVIRONMENT
+# ================================
+
+# Virtual environment papkalari
+venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+.venv/
+
+# Conda environment
+.conda/
+
+# ================================
+# LOGGING FAYLLAR
+# ================================
+
+# Log fayllari
+*.log
+logs/
+log/
+
+# Debug fayllari
+debug.log
+error.log
+access.log
+
+# ================================
+# MEDIA VA TEMP FAYLLAR
+# ================================
+
+# Media fayllar (upload qilingan rasmlar va h.k.)
+media/
+uploads/
+static/media/
+
+# Temporary fayllari
+tmp/
+temp/
+.tmp/
+.temp/
+
+# Backup fayllari
+*.bak
+*.backup
+*.old
+
+# ================================
+# DATABASE FAYLLAR
+# ================================
+
+# Local database fayllari
+*.db
+*.sqlite
+*.sqlite3
+
+# Database migration fayllari (development-da)
+# alembic/versions/*.py  # agar kerak bo'lsa uncommit qiling
+
+# ================================
+# IDE VA EDITOR SOZLAMALARI
+# ================================
+
+# PyCharm
+.idea/
+*.iws
+*.iml
+*.ipr
+
+# VS Code settings (user-specific)
+.vscode/settings.json
+.vscode/launch.json
+.vscode/extensions.json
+.vscode/tasks.json
+
+# Vim
+*.swp
+*.swo
+*~
+
+# Emacs
+*~
+\#*\#
+/.emacs.desktop
+/.emacs.desktop.lock
+*.elc
+auto-save-list
+tramp
+.\#*
+
+# Sublime Text
+*.sublime-workspace
+*.sublime-project
+
+# ================================
+# OPERATING SYSTEM FAYLLARI
+# ================================
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon
+._*
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+
+# Windows
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+*.stackdump
+[Dd]esktop.ini
+$RECYCLE.BIN/
+*.cab
+*.msi
+*.msix
+*.msm
+*.msp
+*.lnk
+
+# Linux
+*~
+.fuse_hidden*
+.directory
+.Trash-*
+.nfs*
+
+# ================================
+# DOCUMENTATION VA BUILD
+# ================================
+
+# Sphinx documentation
+docs/_build/
+docs/build/
+
+# MkDocs documentation
+/site
+
+# ================================
+# CONTAINERIZATION
+# ================================
+
+# Docker
+.dockerignore
+Dockerfile.prod
+docker-compose.override.yml
+
+# ================================
+# PERFORMANCE VA PROFILING
+# ================================
+
+# Profiling fayllari
+*.prof
+*.pstats
+
+# Memory profiling
+*.memprof
+
+# ================================
+# TESTING
+# ================================
+
+# Test coverage
+.coverage
+.coverage.*
+htmlcov/
+.pytest_cache/
+
+# Test databases
+test.db
+test.sqlite
+test.sqlite3
+
+# ================================
+# CLOUD VA DEPLOYMENT
+# ================================
+
+# AWS
+.aws/
+*.pem
+
+# Google Cloud
+*.json
+
+# Azure
+*.publishsettings
+
+# Heroku
+.env.heroku
+
+# ================================
+# MONITORING VA METRICS
+# ================================
+
+# Prometheus metrics
+*.prom
+
+# Grafana
+grafana/
+
+# ================================
+# ESLATMALAR:
+# 
+# 1. Bu gitignore professional production loyiha uchun yaratilgan
+# 2. Maxfiy ma'lumotlarni hech qachon Git-ga commit qilmang
+# 3. Agar qo'shimcha fayl turlari kerak bo'lsa, qo'shing
+# 4. Team bilan ishlashda common sozlamalarni ignore qilmang
+# 5. Production-specific fayllarni alohida ignore qiling
+# 
+# 50 yil keyin ham tushunarli bo'lishi uchun categorized qilindi! 🛡️
+# ================================

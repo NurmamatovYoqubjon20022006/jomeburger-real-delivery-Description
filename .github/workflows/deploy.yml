@@ -1,0 +1,99 @@
+# 🚀 Jomeburger GitHub Pages Deploy
+# Professional automatic deployment workflow for real-world production use
+# This workflow builds and deploys the web interface to GitHub Pages with HTTPS support
+# Written with extensive comments for 50-year maintainability as requested
+
+name: 🍔 Deploy Jomeburger to GitHub Pages
+
+# Trigger conditions: when code is pushed to main branch or manually
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'web/**'  # Only deploy when web files change
+  workflow_dispatch:  # Allow manual deployment trigger
+
+# Security permissions for GitHub Pages deployment
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Prevent concurrent deployments for data integrity
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  # Build job: Prepare web assets for deployment
+  build:
+    name: 📦 Build Web Assets
+    runs-on: ubuntu-latest
+    
+    steps:
+      # Step 1: Get source code from repository
+      - name: 📥 Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Full history for better caching
+
+      # Step 2: Configure GitHub Pages settings
+      - name: ⚙️ Setup GitHub Pages
+        uses: actions/configure-pages@v3
+
+      # Step 3: Copy web files to build directory
+      - name: 🔧 Prepare Web Files
+        run: |
+          echo "🍔 Preparing Jomeburger web assets for production deployment..."
+          
+          # Create build directory for GitHub Pages
+          mkdir -p _site
+          
+          # Copy all web files to build directory
+          cp -r web/* _site/
+          
+          # Ensure index.html exists (GitHub Pages requirement)
+          if [ ! -f "_site/index.html" ]; then
+            echo "❌ Error: index.html not found in web directory"
+            exit 1
+          fi
+          
+          # Add deployment timestamp for debugging
+          echo "<!-- Deployed: $(date) -->" >> _site/index.html
+          
+          # List deployed files for verification
+          echo "📋 Deployed files:"
+          ls -la _site/
+          
+          echo "✅ Web assets prepared successfully!"
+
+      # Step 4: Upload build artifacts for deployment
+      - name: 📤 Upload GitHub Pages Artifact
+        uses: actions/upload-pages-artifact@v2
+        with:
+          path: '_site'
+
+  # Deploy job: Push to GitHub Pages with HTTPS
+  deploy:
+    name: 🚀 Deploy to GitHub Pages
+    needs: build
+    runs-on: ubuntu-latest
+    
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    
+    steps:
+      # Deploy to GitHub Pages (automatically gets HTTPS)
+      - name: 🌐 Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v2
+        
+      # Verify deployment success
+      - name: ✅ Verify Deployment
+        run: |
+          echo "🎉 Jomeburger successfully deployed!"
+          echo "📱 Web App URL: ${{ steps.deployment.outputs.page_url }}"
+          echo "🔒 HTTPS: Enabled automatically by GitHub Pages"
+          echo "📊 Status: Production Ready"

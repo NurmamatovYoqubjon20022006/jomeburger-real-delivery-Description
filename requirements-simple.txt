@@ -1,0 +1,4 @@
+# Jomeburger Telegram Bot - Minimal Dependencies
+aiogram
+python-dotenv
+requests
