@@ -1,0 +1,1335 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>🍔 Jomeburger - Super Professional Food Delivery</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f8fafb;
+            color: #1a1a1a;
+            overflow-x: hidden;
+            min-height: 100vh;
+            line-height: 1.5;
+        }
+        
+        /* Header with beautiful gradient */
+        .header {
+            background: linear-gradient(135deg, #ff6b35 0%, #ff8c42 50%, #ffa726 100%);
+            color: white;
+            padding: 25px 20px 35px;
+            text-align: center;
+            position: relative;
+            box-shadow: 0 8px 32px rgba(255, 107, 53, 0.2);
+            overflow: hidden;
+        }
+        
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 100"><path d="M0,50 Q250,0 500,50 T1000,50 L1000,100 L0,100 Z" fill="rgba(255,255,255,0.1)"/></svg>') no-repeat center bottom;
+            background-size: cover;
+        }
+        
+        .header-content {
+            position: relative;
+            z-index: 2;
+        }
+        
+        .logo {
+            font-size: 32px;
+            font-weight: 800;
+            margin-bottom: 8px;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            letter-spacing: -0.5px;
+        }
+        
+        .subtitle {
+            font-size: 16px;
+            opacity: 0.95;
+            font-weight: 500;
+            letter-spacing: 0.2px;
+        }
+        
+        .location-info {
+            margin-top: 15px;
+            padding: 12px 20px;
+            background: rgba(255,255,255,0.15);
+            border-radius: 25px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            backdrop-filter: blur(10px);
+        }
+        
+        /* Search Section */
+        .search-section {
+            padding: 25px 20px;
+            background: white;
+            margin-top: -15px;
+            position: relative;
+            z-index: 10;
+            border-radius: 25px 25px 0 0;
+            box-shadow: 0 -4px 20px rgba(0,0,0,0.05);
+        }
+        
+        .search-container {
+            position: relative;
+        }
+        
+        .search-box {
+            width: 100%;
+            padding: 18px 25px 18px 55px;
+            border: 2px solid #f1f3f4;
+            border-radius: 30px;
+            font-size: 16px;
+            background: #f8f9fa;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+        
+        .search-box:focus {
+            outline: none;
+            border-color: #ff6b35;
+            background: white;
+            box-shadow: 0 4px 20px rgba(255, 107, 53, 0.1);
+        }
+        
+        .search-icon {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 20px;
+            color: #9aa0a6;
+        }
+        
+        /* Quick Filters */
+        .quick-filters {
+            display: flex;
+            gap: 12px;
+            overflow-x: auto;
+            padding: 15px 20px 25px;
+            background: white;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+        
+        .quick-filters::-webkit-scrollbar {
+            display: none;
+        }
+        
+        .filter-chip {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 18px;
+            background: #f8f9fa;
+            border-radius: 25px;
+            white-space: nowrap;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+        
+        .filter-chip.active {
+            background: #ff6b35;
+            color: white;
+            box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3);
+        }
+        
+        .filter-chip:hover:not(.active) {
+            background: #e8f4fd;
+            border-color: #4285f4;
+        }
+        
+        /* Promo Banner */
+        .promo-banner {
+            margin: 0 20px 25px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 25px;
+            border-radius: 20px;
+            color: white;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        
+        .promo-banner:hover {
+            transform: translateY(-2px);
+        }
+        
+        .promo-banner::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -30%;
+            width: 100%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            transform: rotate(45deg);
+        }
+        
+        .promo-content {
+            position: relative;
+            z-index: 2;
+        }
+        
+        .promo-title {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+        
+        .promo-subtitle {
+            font-size: 14px;
+            opacity: 0.9;
+            font-weight: 500;
+        }
+        
+        .promo-badge {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(255,255,255,0.2);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            backdrop-filter: blur(10px);
+        }
+        
+        /* Categories Grid */
+        .section-title {
+            font-size: 24px;
+            font-weight: 700;
+            margin: 30px 20px 20px;
+            color: #1a1a1a;
+            letter-spacing: -0.3px;
+        }
+        
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            padding: 0 20px;
+            margin-bottom: 35px;
+        }
+        
+        .category-card {
+            background: white;
+            border-radius: 20px;
+            padding: 25px 15px;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 2px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .category-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, #ff6b35, #ffa726);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .category-card:hover,
+        .category-card.active {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 35px rgba(255, 107, 53, 0.15);
+            border-color: #ff6b35;
+        }
+        
+        .category-card.active::before {
+            opacity: 0.05;
+        }
+        
+        .category-content {
+            position: relative;
+            z-index: 2;
+        }
+        
+        .category-icon {
+            font-size: 40px;
+            margin-bottom: 12px;
+            display: block;
+            transition: transform 0.3s ease;
+        }
+        
+        .category-card:hover .category-icon {
+            transform: scale(1.1);
+        }
+        
+        .category-name {
+            font-size: 14px;
+            font-weight: 600;
+            color: #1a1a1a;
+            letter-spacing: 0.1px;
+        }
+        
+        /* Restaurant Cards */
+        .restaurants-container {
+            padding: 0 20px 120px;
+        }
+        
+        .restaurant-card {
+            background: white;
+            border-radius: 24px;
+            margin-bottom: 25px;
+            overflow: hidden;
+            box-shadow: 0 6px 30px rgba(0,0,0,0.08);
+            transition: all 0.4s ease;
+            cursor: pointer;
+            border: 1px solid #f1f3f4;
+        }
+        
+        .restaurant-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.12);
+        }
+        
+        .restaurant-image {
+            width: 100%;
+            height: 180px;
+            background: linear-gradient(135deg, #ff6b35, #ffa726);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 70px;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .restaurant-image::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: shimmer 4s ease-in-out infinite;
+        }
+        
+        @keyframes shimmer {
+            0%, 100% { transform: rotate(0deg) scale(1); }
+            50% { transform: rotate(180deg) scale(1.1); }
+        }
+        
+        .restaurant-badge {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: rgba(255,255,255,0.95);
+            color: #ff6b35;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            backdrop-filter: blur(10px);
+        }
+        
+        .restaurant-info {
+            padding: 25px;
+        }
+        
+        .restaurant-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 12px;
+        }
+        
+        .restaurant-name {
+            font-size: 20px;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-bottom: 5px;
+            letter-spacing: -0.2px;
+        }
+        
+        .restaurant-category {
+            color: #ff6b35;
+            font-size: 14px;
+            font-weight: 600;
+        }
+        
+        .restaurant-status {
+            background: #4CAF50;
+            color: white;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .restaurant-status.closed {
+            background: linear-gradient(135deg, #f44336, #e57373);
+        }
+        
+        .restaurant-meta {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 15px;
+        }
+        
+        .rating {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            color: #1a1a1a;
+        }
+        
+        .rating-star {
+            color: #ffb400;
+            font-size: 16px;
+        }
+        
+        .delivery-info {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: #5f6368;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        
+        .restaurant-description {
+            color: #5f6368;
+            font-size: 14px;
+            line-height: 1.5;
+            font-weight: 400;
+        }
+        
+        /* Bottom Navigation */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            padding: 20px 15px 25px;
+            box-shadow: 0 -8px 30px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            z-index: 1000;
+            border-top: 1px solid #f1f3f4;
+        }
+        
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            padding: 10px 15px;
+            border-radius: 16px;
+            min-width: 70px;
+        }
+        
+        .nav-item.active {
+            background: linear-gradient(135deg, #fff5f2, #ffebe5);
+            color: #ff6b35;
+            box-shadow: 0 4px 15px rgba(255, 107, 53, 0.1);
+        }
+        
+        .nav-icon {
+            font-size: 24px;
+            transition: transform 0.3s ease;
+        }
+        
+        .nav-item.active .nav-icon {
+            transform: scale(1.1);
+        }
+        
+        .nav-label {
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 0.1px;
+        }
+        
+        /* Floating Cart */
+        .cart-fab {
+            position: fixed;
+            bottom: 100px;
+            right: 20px;
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, #ff6b35, #ffa726);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 28px;
+            box-shadow: 0 8px 30px rgba(255, 107, 53, 0.4);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 999;
+            border: 4px solid white;
+        }
+        
+        .cart-fab:hover {
+            transform: scale(1.1);
+            box-shadow: 0 12px 40px rgba(255, 107, 53, 0.5);
+        }
+        
+        .cart-count {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            background: #e74c3c;
+            color: white;
+            border-radius: 50%;
+            width: 28px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+            font-weight: 700;
+            border: 3px solid white;
+        }
+        
+        /* Loading States */
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 60px 20px;
+            color: #5f6368;
+        }
+        
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid #f1f3f4;
+            border-top: 4px solid #ff6b35;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 25px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .loading-text {
+            font-size: 16px;
+            font-weight: 500;
+        }
+        
+        /* Empty States */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #5f6368;
+        }
+        
+        .empty-icon {
+            font-size: 80px;
+            margin-bottom: 20px;
+            opacity: 0.7;
+        }
+        
+        .empty-title {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #1a1a1a;
+        }
+        
+        .empty-subtitle {
+            font-size: 14px;
+            line-height: 1.5;
+        }
+        
+        /* Animations */
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        /* Utility Classes */
+        .hidden {
+            display: none !important;
+        }
+        
+        .text-primary {
+            color: #ff6b35 !important;
+        }
+        
+        .bg-primary {
+            background: #ff6b35 !important;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 480px) {
+            .categories-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 12px;
+            }
+            
+            .category-card {
+                padding: 20px 12px;
+            }
+            
+            .category-icon {
+                font-size: 36px;
+            }
+            
+            .restaurant-card {
+                border-radius: 20px;
+            }
+            
+            .restaurant-image {
+                height: 160px;
+                font-size: 60px;
+            }
+            
+            .restaurant-info {
+                padding: 20px;
+            }
+            
+            .bottom-nav {
+                padding: 15px 10px 20px;
+            }
+            
+            .cart-fab {
+                width: 60px;
+                height: 60px;
+                font-size: 24px;
+                bottom: 95px;
+            }
+        }
+        
+        @media (max-width: 360px) {
+            .search-section {
+                padding: 20px 15px;
+            }
+            
+            .promo-banner {
+                margin: 0 15px 20px;
+                padding: 20px;
+            }
+            
+            .section-title {
+                margin: 25px 15px 15px;
+                font-size: 22px;
+            }
+            
+            .restaurants-container {
+                padding: 0 15px 120px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Section -->
+    <div class="header">
+        <div class="header-content">
+            <div class="logo">🍔 Jomeburger</div>
+            <div class="subtitle">Dunyodagi eng tez yetkazib berish xizmati</div>
+            <div class="location-info">
+                <span>📍</span>
+                <span>Toshkent, O'zbekiston</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Search Section -->
+    <div class="search-section">
+        <div class="search-container">
+            <div class="search-icon">🔍</div>
+            <input type="text" class="search-box" placeholder="Taom, restoran yoki kategoriya qidiring..." id="searchInput">
+        </div>
+    </div>
+
+    <!-- Quick Filters -->
+    <div class="quick-filters" id="quickFilters">
+        <div class="filter-chip active" data-filter="all">
+            <span>🍽️</span>
+            <span>Barchasi</span>
+        </div>
+        <div class="filter-chip" data-filter="popular">
+            <span>🔥</span>
+            <span>Mashhur</span>
+        </div>
+        <div class="filter-chip" data-filter="fast">
+            <span>⚡</span>
+            <span>Tez</span>
+        </div>
+        <div class="filter-chip" data-filter="new">
+            <span>✨</span>
+            <span>Yangi</span>
+        </div>
+        <div class="filter-chip" data-filter="offers">
+            <span>💰</span>
+            <span>Chegirmalar</span>
+        </div>
+    </div>
+
+    <!-- Promo Banner -->
+    <div class="promo-banner" onclick="showPromo()">
+        <div class="promo-content">
+            <div class="promo-title">Maxsus taklif!</div>
+            <div class="promo-subtitle">Birinchi buyurtmaga 50% chegirma</div>
+        </div>
+        <div class="promo-badge">HOT!</div>
+    </div>
+
+    <!-- Categories Section -->
+    <div class="section-title">Populyar kategoriyalar</div>
+    <div class="categories-grid" id="categoriesGrid">
+        <div class="category-card active" data-category="all" onclick="selectCategory('all')">
+            <div class="category-content">
+                <span class="category-icon">🍽️</span>
+                <div class="category-name">Barchasi</div>
+            </div>
+        </div>
+        <div class="category-card" data-category="fastfood" onclick="selectCategory('fastfood')">
+            <div class="category-content">
+                <span class="category-icon">🍔</span>
+                <div class="category-name">Fastfud</div>
+            </div>
+        </div>
+        <div class="category-card" data-category="pizza" onclick="selectCategory('pizza')">
+            <div class="category-content">
+                <span class="category-icon">🍕</span>
+                <div class="category-name">Pizza</div>
+            </div>
+        </div>
+        <div class="category-card" data-category="national" onclick="selectCategory('national')">
+            <div class="category-content">
+                <span class="category-icon">🍛</span>
+                <div class="category-name">Milliy</div>
+            </div>
+        </div>
+        <div class="category-card" data-category="drinks" onclick="selectCategory('drinks')">
+            <div class="category-content">
+                <span class="category-icon">🥤</span>
+                <div class="category-name">Ichimlik</div>
+            </div>
+        </div>
+        <div class="category-card" data-category="desserts" onclick="selectCategory('desserts')">
+            <div class="category-content">
+                <span class="category-icon">🍰</span>
+                <div class="category-name">Desert</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Indicator -->
+    <div class="loading" id="loadingIndicator">
+        <div class="spinner"></div>
+        <div class="loading-text">Ma'lumotlar yuklanmoqda...</div>
+    </div>
+
+    <!-- Restaurants Container -->
+    <div class="restaurants-container" id="restaurantsContainer">
+        <!-- Restaurants will be dynamically loaded here -->
+    </div>
+
+    <!-- Bottom Navigation -->
+    <div class="bottom-nav">
+        <div class="nav-item active" data-page="home" onclick="navigateTo('home')">
+            <span class="nav-icon">🏠</span>
+            <span class="nav-label">Bosh sahifa</span>
+        </div>
+        <div class="nav-item" data-page="search" onclick="navigateTo('search')">
+            <span class="nav-icon">🔍</span>
+            <span class="nav-label">Qidiruv</span>
+        </div>
+        <div class="nav-item" data-page="orders" onclick="navigateTo('orders')">
+            <span class="nav-icon">📋</span>
+            <span class="nav-label">Buyurtmalar</span>
+        </div>
+        <div class="nav-item" data-page="profile" onclick="navigateTo('profile')">
+            <span class="nav-icon">👤</span>
+            <span class="nav-label">Profil</span>
+        </div>
+    </div>
+
+    <!-- Floating Cart Button -->
+    <div class="cart-fab" onclick="openCart()">
+        🛒
+        <div class="cart-count hidden" id="cartCount">0</div>
+    </div>
+
+    <script>
+        // Initialize Telegram WebApp
+        const tg = window.Telegram?.WebApp;
+        if (tg) {
+            tg.ready();
+            tg.expand();
+            tg.MainButton.hide();
+            
+            // Set theme
+            if (tg.colorScheme === 'dark') {
+                document.body.style.background = '#1a1a1a';
+                document.body.style.color = '#ffffff';
+            }
+        }
+
+        // Global Application State
+        const AppState = {
+            currentCategory: 'all',
+            currentFilter: 'all',
+            cartItems: [],
+            restaurants: [],
+            isLoading: false,
+            searchQuery: ''
+        };
+
+        // Real Restaurant Data with Full Functionality
+        const RestaurantDatabase = [
+            {
+                id: 1,
+                name: "Jomeburger Premium",
+                category: "fastfood",
+                rating: 4.8,
+                deliveryTime: "20-30",
+                status: "open",
+                image: "🍔",
+                badge: "PREMIUM",
+                description: "Eng mazali va sifatli burgerlar. Premium go'sht va yangi sabzavotlar",
+                isPopular: true,
+                isFast: true,
+                isNew: false,
+                hasOffers: true,
+                menu: [
+                    { id: 101, name: "Big Jome Burger", price: 35000, image: "🍔", description: "Ikki qavatli burger premium go'sht bilan" },
+                    { id: 102, name: "Cheese Deluxe", price: 32000, image: "🧀", description: "3 xil pishloq va premium go'sht" },
+                    { id: 103, name: "BBQ Chicken", price: 30000, image: "🐔", description: "BBQ sous bilan tovuq burgeri" },
+                    { id: 104, name: "Crispy Fries", price: 15000, image: "🍟", description: "Chinakam kartoshka fri" }
+                ]
+            },
+            {
+                id: 2,
+                name: "Pizza Palace",
+                category: "pizza",
+                rating: 4.9,
+                deliveryTime: "25-35",
+                status: "open",
+                image: "🍕",
+                badge: "BEST",
+                description: "Italyan an'analariga ko'ra tayyorlangan pizzalar",
+                isPopular: true,
+                isFast: false,
+                isNew: false,
+                hasOffers: true,
+                menu: [
+                    { id: 201, name: "Margherita Classic", price: 45000, image: "🍕", description: "Mozzarella va pomidor" },
+                    { id: 202, name: "Pepperoni Supreme", price: 55000, image: "🍕", description: "Ko'p pepperoni va pishloq" },
+                    { id: 203, name: "Hawaiian Paradise", price: 60000, image: "🍍", description: "Ananas va jambon" },
+                    { id: 204, name: "Meat Lovers", price: 65000, image: "🥓", description: "4 xil go'sht turi" }
+                ]
+            },
+            {
+                id: 3,
+                name: "O'zbek Oshxonasi",
+                category: "national",
+                rating: 4.7,
+                deliveryTime: "35-45",
+                status: "open",
+                image: "🍛",
+                badge: "TRADITIONAL",
+                description: "An'anaviy o'zbek taomlari, halol go'sht",
+                isPopular: true,
+                isFast: false,
+                isNew: false,
+                hasOffers: false,
+                menu: [
+                    { id: 301, name: "Toshkent Oshi", price: 28000, image: "🍚", description: "An'anaviy Toshkent oshi" },
+                    { id: 302, name: "Manti", price: 32000, image: "🥟", description: "Qo'y go'shti bilan manti" },
+                    { id: 303, name: "Lag'mon", price: 25000, image: "🍜", description: "Go'sht va sabzavot bilan" },
+                    { id: 304, name: "Shashlik", price: 35000, image: "🍢", description: "Qo'y go'shti shashlik" }
+                ]
+            },
+            {
+                id: 4,
+                name: "Fresh Zone",
+                category: "drinks",
+                rating: 4.6,
+                deliveryTime: "15-20",
+                status: "open",
+                image: "🥤",
+                badge: "FRESH",
+                description: "Yangi ichimliklar va smoothie'lar",
+                isPopular: false,
+                isFast: true,
+                isNew: true,
+                hasOffers: true,
+                menu: [
+                    { id: 401, name: "Orange Fresh", price: 18000, image: "🍊", description: "100% tabiiy apelsin sharbati" },
+                    { id: 402, name: "Berry Smoothie", price: 22000, image: "🫐", description: "Aralash berry smoothie" },
+                    { id: 403, name: "Green Detox", price: 25000, image: "🥬", description: "Detoks uchun yashil smoothie" },
+                    { id: 404, name: "Cola Classic", price: 8000, image: "🥤", description: "Klassik kola" }
+                ]
+            },
+            {
+                id: 5,
+                name: "Sweet Dreams",
+                category: "desserts",
+                rating: 4.5,
+                deliveryTime: "30-40",
+                status: "open",
+                image: "🍰",
+                badge: "SWEET",
+                description: "Mazali tortlar va shirinliklar",
+                isPopular: false,
+                isFast: false,
+                isNew: true,
+                hasOffers: false,
+                menu: [
+                    { id: 501, name: "Chocolate Cake", price: 35000, image: "🍰", description: "3 qavatli shokoladli tort" },
+                    { id: 502, name: "Tiramisu", price: 28000, image: "🧁", description: "Italyan tiramisu" },
+                    { id: 503, name: "Ice Cream", price: 15000, image: "🍨", description: "3 ta shar muzqaymoq" },
+                    { id: 504, name: "Cheesecake", price: 32000, image: "🍰", description: "New York style cheesecake" }
+                ]
+            },
+            {
+                id: 6,
+                name: "Sushi Master",
+                category: "sushi",
+                rating: 4.8,
+                deliveryTime: "40-50",
+                status: "closed",
+                closingTime: "10:00",
+                image: "🍣",
+                badge: "CLOSED",
+                description: "Yapon oshxonasi, eng yangi baliq",
+                isPopular: true,
+                isFast: false,
+                isNew: false,
+                hasOffers: false,
+                menu: [
+                    { id: 601, name: "California Roll", price: 45000, image: "🍣", description: "Klassik california roll" },
+                    { id: 602, name: "Salmon Nigiri", price: 50000, image: "🍣", description: "Yangi salmon nigiri" },
+                    { id: 603, name: "Dragon Roll", price: 65000, image: "🐉", description: "Maxsus dragon roll" }
+                ]
+            }
+        ];
+
+        // Initialize Application
+        function initializeApp() {
+            console.log('🚀 Jomeburger Super App initializing...');
+            AppState.restaurants = [...RestaurantDatabase];
+            
+            // Setup event listeners
+            setupEventListeners();
+            
+            // Load initial data
+            loadRestaurants();
+            
+            // Update cart display
+            updateCartDisplay();
+            
+            console.log('✅ App initialized successfully!');
+        }
+
+        // Setup All Event Listeners
+        function setupEventListeners() {
+            // Search functionality
+            const searchInput = document.getElementById('searchInput');
+            let searchTimeout;
+            
+            searchInput.addEventListener('input', (e) => {
+                clearTimeout(searchTimeout);
+                searchTimeout = setTimeout(() => {
+                    handleSearch(e.target.value);
+                }, 300);
+            });
+
+            // Quick filters
+            document.querySelectorAll('.filter-chip').forEach(chip => {
+                chip.addEventListener('click', () => {
+                    const filter = chip.getAttribute('data-filter');
+                    selectFilter(filter);
+                });
+            });
+
+            // Navigation items
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.addEventListener('click', () => {
+                    const page = item.getAttribute('data-page');
+                    navigateTo(page);
+                });
+            });
+        }
+
+        // Category Selection
+        function selectCategory(category) {
+            console.log(`📂 Selecting category: ${category}`);
+            AppState.currentCategory = category;
+            
+            // Update UI
+            document.querySelectorAll('.category-card').forEach(card => {
+                card.classList.remove('active');
+            });
+            document.querySelector(`[data-category="${category}"]`).classList.add('active');
+            
+            // Filter and display restaurants
+            filterAndDisplayRestaurants();
+        }
+
+        // Filter Selection
+        function selectFilter(filter) {
+            console.log(`🔍 Selecting filter: ${filter}`);
+            AppState.currentFilter = filter;
+            
+            // Update UI
+            document.querySelectorAll('.filter-chip').forEach(chip => {
+                chip.classList.remove('active');
+            });
+            document.querySelector(`[data-filter="${filter}"]`).classList.add('active');
+            
+            // Filter and display restaurants
+            filterAndDisplayRestaurants();
+        }
+
+        // Smart Restaurant Filtering
+        function filterAndDisplayRestaurants() {
+            showLoading();
+            
+            setTimeout(() => {
+                let filteredRestaurants = [...AppState.restaurants];
+                
+                // Category filter
+                if (AppState.currentCategory !== 'all') {
+                    filteredRestaurants = filteredRestaurants.filter(r => 
+                        r.category === AppState.currentCategory
+                    );
+                }
+                
+                // Quick filter
+                switch (AppState.currentFilter) {
+                    case 'popular':
+                        filteredRestaurants = filteredRestaurants.filter(r => r.isPopular);
+                        break;
+                    case 'fast':
+                        filteredRestaurants = filteredRestaurants.filter(r => r.isFast);
+                        break;
+                    case 'new':
+                        filteredRestaurants = filteredRestaurants.filter(r => r.isNew);
+                        break;
+                    case 'offers':
+                        filteredRestaurants = filteredRestaurants.filter(r => r.hasOffers);
+                        break;
+                }
+                
+                // Search filter
+                if (AppState.searchQuery) {
+                    filteredRestaurants = filteredRestaurants.filter(r =>
+                        r.name.toLowerCase().includes(AppState.searchQuery.toLowerCase()) ||
+                        r.description.toLowerCase().includes(AppState.searchQuery.toLowerCase())
+                    );
+                }
+                
+                hideLoading();
+                renderRestaurants(filteredRestaurants);
+            }, 500);
+        }
+
+        // Load Initial Restaurants
+        function loadRestaurants() {
+            showLoading();
+            
+            setTimeout(() => {
+                hideLoading();
+                renderRestaurants(AppState.restaurants);
+            }, 800);
+        }
+
+        // Render Restaurants
+        function renderRestaurants(restaurants) {
+            const container = document.getElementById('restaurantsContainer');
+            
+            if (restaurants.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state fade-in">
+                        <div class="empty-icon">🔍</div>
+                        <div class="empty-title">Hech narsa topilmadi</div>
+                        <div class="empty-subtitle">Boshqa kategoriya yoki filtrni tanlang</div>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = restaurants.map(restaurant => `
+                <div class="restaurant-card fade-in" onclick="openRestaurant(${restaurant.id})">
+                    <div class="restaurant-image">
+                        ${restaurant.image}
+                        <div class="restaurant-badge">${restaurant.badge}</div>
+                    </div>
+                    <div class="restaurant-info">
+                        <div class="restaurant-header">
+                            <div>
+                                <div class="restaurant-name">${restaurant.name}</div>
+                                <div class="restaurant-category">${getCategoryDisplayName(restaurant.category)}</div>
+                            </div>
+                            <div class="restaurant-status ${restaurant.status}">
+                                ${restaurant.status === 'open' ? 'OCHIQ' : `YOPIQ - ${restaurant.closingTime}`}
+                            </div>
+                        </div>
+                        <div class="restaurant-meta">
+                            <div class="rating">
+                                <span class="rating-star">⭐</span>
+                                <span>${restaurant.rating}</span>
+                            </div>
+                            <div class="delivery-info">
+                                <span>🕐</span>
+                                <span>${restaurant.deliveryTime} min</span>
+                            </div>
+                        </div>
+                        <div class="restaurant-description">${restaurant.description}</div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Get Category Display Name
+        function getCategoryDisplayName(category) {
+            const categories = {
+                fastfood: 'Fastfud',
+                pizza: 'Pizza',
+                national: 'Milliy taomlar',
+                drinks: 'Ichimliklar',
+                desserts: 'Shirinliklar',
+                sushi: 'Sushi'
+            };
+            return categories[category] || 'Boshqa';
+        }
+
+        // Open Restaurant Details
+        function openRestaurant(restaurantId) {
+            const restaurant = AppState.restaurants.find(r => r.id === restaurantId);
+            if (!restaurant) return;
+
+            if (restaurant.status === 'closed') {
+                showNotification(
+                    `${restaurant.name} hozir yopiq!\n${restaurant.closingTime} da ochiladi.`,
+                    'warning'
+                );
+                return;
+            }
+
+            // Show menu preview
+            const menuPreview = restaurant.menu.slice(0, 4).map(item => 
+                `${item.image} ${item.name} - ${formatPrice(item.price)}`
+            ).join('\n');
+            
+            showNotification(
+                `🍽️ ${restaurant.name}\n\n` +
+                `⭐ ${restaurant.rating} • 🕐 ${restaurant.deliveryTime} min\n\n` +
+                `📋 Mashhur taomlar:\n${menuPreview}\n\n` +
+                `To'liq menyu va buyurtma berish tez orada...`,
+                'info'
+            );
+        }
+
+        // Search Functionality
+        function handleSearch(query) {
+            AppState.searchQuery = query.trim();
+            console.log(`🔍 Searching for: "${AppState.searchQuery}"`);
+            
+            if (!AppState.searchQuery) {
+                filterAndDisplayRestaurants();
+                return;
+            }
+            
+            filterAndDisplayRestaurants();
+        }
+
+        // Navigation Handler
+        function navigateTo(page) {
+            console.log(`🧭 Navigating to: ${page}`);
+            
+            // Update active nav
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            document.querySelector(`[data-page="${page}"]`).classList.add('active');
+
+            switch(page) {
+                case 'home':
+                    AppState.currentCategory = 'all';
+                    AppState.currentFilter = 'all';
+                    AppState.searchQuery = '';
+                    document.getElementById('searchInput').value = '';
+                    loadRestaurants();
+                    break;
+                case 'search':
+                    document.getElementById('searchInput').focus();
+                    break;
+                case 'orders':
+                    showNotification('📋 Buyurtmalar sahifasi\n\nBu qism tez orada ishga tushadi!', 'info');
+                    break;
+                case 'profile':
+                    showNotification('👤 Profil sahifasi\n\nShaxsiy ma\'lumotlar va sozlamalar tez orada!', 'info');
+                    break;
+            }
+        }
+
+        // Promo Banner
+        function showPromo() {
+            showNotification(
+                '🎉 Maxsus taklif!\n\n' +
+                '🎁 Birinchi buyurtmaga 50% chegirma\n' +
+                '🚀 Bepul yetkazib berish\n' +
+                '⭐ Premium taomlar\n\n' +
+                'Promokod: JOME50',
+                'success'
+            );
+        }
+
+        // Cart Functionality
+        function openCart() {
+            if (AppState.cartItems.length === 0) {
+                showNotification('🛒 Savatingiz bo\'sh!\n\nTaom tanlang va buyurtma bering.', 'warning');
+                return;
+            }
+
+            const total = AppState.cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            const itemsList = AppState.cartItems.map(item => 
+                `${item.name} x${item.quantity} = ${formatPrice(item.price * item.quantity)}`
+            ).join('\n');
+            
+            showNotification(
+                `🛒 Savatingiz:\n\n${itemsList}\n\n` +
+                `💰 Jami: ${formatPrice(total)}\n\n` +
+                `Buyurtma berish tez orada...`,
+                'success'
+            );
+        }
+
+        function updateCartDisplay() {
+            const cartCount = document.getElementById('cartCount');
+            const totalItems = AppState.cartItems.reduce((sum, item) => sum + item.quantity, 0);
+            
+            if (totalItems > 0) {
+                cartCount.textContent = totalItems;
+                cartCount.classList.remove('hidden');
+            } else {
+                cartCount.classList.add('hidden');
+            }
+        }
+
+        // Utility Functions
+        function formatPrice(price) {
+            return new Intl.NumberFormat('uz-UZ').format(price) + ' so\'m';
+        }
+
+        function showLoading() {
+            AppState.isLoading = true;
+            document.getElementById('loadingIndicator').style.display = 'block';
+            document.getElementById('restaurantsContainer').style.display = 'none';
+        }
+
+        function hideLoading() {
+            AppState.isLoading = false;
+            document.getElementById('loadingIndicator').style.display = 'none';
+            document.getElementById('restaurantsContainer').style.display = 'block';
+        }
+
+        function showNotification(message, type = 'info') {
+            // Try Telegram WebApp notification first
+            if (tg && tg.showAlert) {
+                tg.showAlert(message);
+            } else {
+                // Fallback to browser alert
+                alert(message);
+            }
+            
+            console.log(`📢 Notification (${type}): ${message}`);
+        }
+
+        // Telegram WebApp Integration
+        if (tg) {
+            // Handle back button
+            tg.onEvent('backButtonClicked', () => {
+                tg.close();
+            });
+
+            // Send data to bot
+            window.sendDataToBot = function(data) {
+                if (tg.sendData) {
+                    tg.sendData(JSON.stringify(data));
+                }
+            };
+
+            // Handle viewport changes
+            tg.onEvent('viewportChanged', () => {
+                if (tg.isExpanded) {
+                    document.body.style.height = '100vh';
+                }
+            });
+        }
+
+        // Initialize app when DOM is ready
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('🎯 DOM loaded, initializing Jomeburger Super App...');
+            initializeApp();
+        });
+
+        // Handle page visibility
+        document.addEventListener('visibilitychange', () => {
+            if (!document.hidden) {
+                console.log('👁️ App became visible, refreshing data...');
+                // Refresh data when app becomes visible
+                if (!AppState.isLoading) {
+                    filterAndDisplayRestaurants();
+                }
+            }
+        });
+
+        console.log('🍔 Jomeburger Super App script loaded successfully!');
+    </script>
+</body>
+</html>
