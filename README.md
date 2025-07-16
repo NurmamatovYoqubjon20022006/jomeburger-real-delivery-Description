@@ -1,7 +1,7 @@
 # 🍔 Jomeburger - Professional Food Delivery Ecosystem
 
-[![Deploy Status](https://github.com/USERNAME/jomeburger-telegram-bot/workflows/🍔%20Deploy%20Jomeburger%20to%20GitHub%20Pages/badge.svg)](https://github.com/USERNAME/jomeburger-telegram-bot/actions)
-[![Production](https://img.shields.io/badge/Production-Ready-brightgreen.svg)](https://USERNAME.github.io/jomeburger-telegram-bot/)
+[![Deploy Status](https://github.com/NurmamatovYoqubjon20022006/jomeburger-real-delivery-Description/workflows/🍔%20Deploy%20Jomeburger%20to%20GitHub%20Pages/badge.svg)](https://github.com/NurmamatovYoqubjon20022006/jomeburger-real-delivery-Description/actions)
+[![Production](https://img.shields.io/badge/Production-Ready-brightgreen.svg)](https://nurmamatovyoqubjon20022006.github.io/jomeburger-real-delivery-Description/)
 [![Telegram Bot](https://img.shields.io/badge/Telegram-Bot-blue.svg)](https://t.me/JomeBurgerbot_bot)
 
 ## 🌟 Professional Food Delivery Platform
@@ -9,7 +9,7 @@
 **Jomeburger** - Real-world production-ready food delivery ecosystem built for millions of users with enterprise-grade architecture and 50-year maintainability.
 
 ### 🚀 Live Demo
-- **🌐 Web App (HTTPS)**: https://USERNAME.github.io/jomeburger-telegram-bot/
+- **🌐 Web App (HTTPS)**: https://nurmamatovyoqubjon20022006.github.io/jomeburger-real-delivery-Description/app.html
 - **📱 Telegram Bot**: https://t.me/JomeBurgerbot_bot
 - **📲 Mobile App**: Coming Soon (Flutter)
 
