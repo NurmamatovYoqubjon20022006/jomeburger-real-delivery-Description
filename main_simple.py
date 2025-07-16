@@ -31,10 +31,10 @@ load_dotenv()
 # Configuration constants
 TOKEN = os.getenv('BOT_TOKEN', '7342883964:AAHsjK7_pNDAPNVe0sjVS48D2S8sMKGe7D8')
 
-# Web App URL - Professional Premium Interface
-# Development: http://localhost:8080/app-premium.html
-# Production: https://USERNAME.github.io/jomeburger-real-delivery/app-premium.html
-WEB_APP_URL = os.getenv('WEB_APP_URL', 'http://localhost:8080/app-premium.html')
+# Web App URL - REAL GLOBAL PRODUCTION URL 🌍
+# Production: https://nurmamatovyoqubjon20022006.github.io/jomeburger-real-delivery-Description/app.html
+# Development: http://localhost:8080/app.html  
+WEB_APP_URL = os.getenv('WEB_APP_URL', 'https://nurmamatovyoqubjon20022006.github.io/jomeburger-real-delivery-Description/app.html')
 
 # Initialize bot and dispatcher with production settings
 bot = Bot(
