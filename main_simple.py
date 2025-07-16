@@ -21,6 +21,8 @@ import os
 from aiogram import Bot, Dispatcher, types
 from aiogram.filters import Command
 from aiogram.types import Message, InlineKeyboardButton, InlineKeyboardMarkup, ReplyKeyboardMarkup, KeyboardButton, WebAppInfo
+from aiogram.client.default import DefaultBotProperties
+from aiogram.enums import ParseMode
 from dotenv import load_dotenv
 
 # Load environment variables for secure configuration
@@ -29,20 +31,25 @@ load_dotenv()
 # Configuration constants
 TOKEN = os.getenv('BOT_TOKEN', '7342883964:AAHsjK7_pNDAPNVe0sjVS48D2S8sMKGe7D8')
 
-# Web App URL - will be updated after GitHub Pages deployment
-# Format: https://USERNAME.github.io/jomeburger-telegram-bot/app.html
-WEB_APP_URL = os.getenv('WEB_APP_URL', 'https://your-username.github.io/jomeburger-telegram-bot/app.html')
+# Web App URL - Professional Premium Interface
+# Development: http://localhost:8080/app-premium.html
+# Production: https://USERNAME.github.io/jomeburger-real-delivery/app-premium.html
+WEB_APP_URL = os.getenv('WEB_APP_URL', 'http://localhost:8080/app-premium.html')
 
 # Initialize bot and dispatcher with production settings
-bot = Bot(token=TOKEN, parse_mode="HTML")
+bot = Bot(
+    token=TOKEN, 
+    default=DefaultBotProperties(parse_mode=ParseMode.HTML)
+)
 dp = Dispatcher()
 
 # Configure professional logging for production monitoring
+# Fixed Unicode encoding for Windows terminal compatibility
 logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
     handlers=[
-        logging.FileHandler('jomeburger_bot.log'),
+        logging.FileHandler('jomeburger_bot.log', encoding='utf-8'),
         logging.StreamHandler()
     ]
 )
@@ -336,14 +343,59 @@ async def echo_handler(message: Message):
     )
 
 async def main():
-    """Main function"""
+    """
+    Main function with integrated web server for local testing
+    
+    Runs both the Telegram bot and a local web server to serve
+    the web interface files during development and testing.
+    """
+    
+    # Import web server modules
+    from aiohttp import web, web_runner
+    import aiohttp_cors
+    
+    # Create web application for serving files
+    app = web.Application()
+    
+    # Enable CORS for Telegram WebApp
+    cors = aiohttp_cors.setup(app, defaults={
+        "*": aiohttp_cors.ResourceOptions(
+            allow_credentials=True,
+            expose_headers="*",
+            allow_headers="*",
+            allow_methods="*"
+        )
+    })
+    
+    # Serve static files from web directory
+    app.router.add_static('/', 'web/')
+    
+    # Add CORS to all routes
+    for route in list(app.router.routes()):
+        cors.add(route)
+    
+    # Start web server
+    runner = web_runner.AppRunner(app)
+    await runner.setup()
+    
+    host = os.getenv('WEB_SERVER_HOST', 'localhost')
+    port = int(os.getenv('WEB_SERVER_PORT', 8080))
+    
+    site = web_runner.TCPSite(runner, host, port)
+    await site.start()
+    
+    logger.info("Web server started at http://%s:%s", host, port)
+    logger.info("Web App URL: http://%s:%s/app.html", host, port)
     
     # Bot ma'lumotlarini olish
     bot_info = await bot.get_me()
-    logger.info(f"Bot ishga tushdi: @{bot_info.username}")
+    logger.info("Bot started: @%s", bot_info.username)
     
-    # Polling rejimida ishga tushirish
-    await dp.start_polling(bot)
+    try:
+        # Polling rejimida ishga tushirish
+        await dp.start_polling(bot)
+    finally:
+        await runner.cleanup()
 
 if __name__ == "__main__":
     try:
