@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🍔 Jomeburger Global - Professional Food Delivery Platform</title>
+    <meta name="description" content="World-class food delivery platform serving millions globally with premium quality and lightning-fast service">
+    <meta name="keywords" content="global food delivery, premium burgers, worldwide delivery, professional platform">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #ff6b35 100%);
+            min-height: 100vh;
+            color: white;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* 🌍 GLOBAL BACKGROUND ANIMATION */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 30% 40%, rgba(255,107,53,0.2) 0%, transparent 50%),
+                radial-gradient(circle at 70% 60%, rgba(102,126,234,0.2) 0%, transparent 50%),
+                radial-gradient(circle at 50% 80%, rgba(118,75,162,0.2) 0%, transparent 50%);
+            animation: globalPulse 8s ease-in-out infinite;
+            z-index: -1;
+        }
+
+        @keyframes globalPulse {
+            0%, 100% { opacity: 1; transform: scale(1) rotate(0deg); }
+            50% { opacity: 0.8; transform: scale(1.1) rotate(2deg); }
+        }
+
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* 🏆 PREMIUM LOGO SECTION */
+        .logo-section {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(20px);
+            border-radius: 30px;
+            padding: 50px 30px;
+            margin: 50px 0;
+            border: 1px solid rgba(255,255,255,0.2);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .logo-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
+            animation: logoShine 3s ease-in-out infinite;
+        }
+
+        @keyframes logoShine {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+        }
+
+        .logo {
+            font-size: 64px;
+            margin-bottom: 20px;
+            animation: logoBounce 2s ease-in-out infinite;
+            position: relative;
+            z-index: 2;
+        }
+
+        @keyframes logoBounce {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .title {
+            font-size: 36px;
+            font-weight: 800;
+            margin-bottom: 15px;
+            background: linear-gradient(135deg, #ffffff 0%, #f0f0f0 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -1px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .subtitle {
+            font-size: 18px;
+            opacity: 0.9;
+            margin-bottom: 20px;
+            font-weight: 500;
+            position: relative;
+            z-index: 2;
+        }
+
+        .global-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #56ab2f 0%, #a8e6cf 100%);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-size: 14px;
+            font-weight: 700;
+            margin: 20px 0;
+            animation: badgePulse 2s ease-in-out infinite;
+            box-shadow: 0 10px 30px rgba(86,171,47,0.3);
+            position: relative;
+            z-index: 2;
+        }
+
+        @keyframes badgePulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        /* 🚀 PREMIUM BUTTONS */
+        .buttons {
+            margin-top: 40px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 20px 30px;
+            margin: 15px 0;
+            background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: 700;
+            font-size: 18px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 15px 35px rgba(255, 107, 53, 0.3);
+            position: relative;
+            overflow: hidden;
+            border: 2px solid transparent;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        .btn:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 25px 50px rgba(255, 107, 53, 0.4);
+            border-color: rgba(255,255,255,0.3);
+        }
+
+        .btn:active {
+            transform: translateY(-2px) scale(1.01);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            box-shadow: 0 15px 35px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-secondary:hover {
+            box-shadow: 0 25px 50px rgba(102, 126, 234, 0.4);
+        }
+
+        /* 📊 STATS SECTION */
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            margin: 40px 0;
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            padding: 25px;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 24px;
+            font-weight: 800;
+            color: #fff;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            opacity: 0.8;
+            font-weight: 500;
+        }
+
+        /* 🌟 FEATURES */
+        .features {
+            margin: 40px 0;
+        }
+
+        .feature {
+            display: flex;
+            align-items: center;
+            margin: 15px 0;
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 15px 20px;
+            border: 1px solid rgba(255,255,255,0.2);
+            transition: all 0.3s;
+        }
+
+        .feature:hover {
+            transform: translateX(10px);
+            background: rgba(255,255,255,0.15);
+        }
+
+        .feature-icon {
+            font-size: 24px;
+            margin-right: 15px;
+        }
+
+        .feature-text {
+            font-weight: 600;
+            font-size: 16px;
+        }
+
+        /* 📱 MOBILE RESPONSIVE */
+        @media (max-width: 480px) {
+            .container {
+                padding: 20px 15px;
+            }
+            
+            .logo {
+                font-size: 48px;
+            }
+            
+            .title {
+                font-size: 28px;
+            }
+            
+            .subtitle {
+                font-size: 16px;
+            }
+            
+            .btn {
+                font-size: 16px;
+                padding: 18px 25px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo-section">
+            <div class="logo">🍔</div>
+            <div class="title">Jomeburger Global</div>
+            <div class="subtitle">Professional Food Delivery Platform</div>
+            <div class="global-badge">🌍 Serving Millions Worldwide</div>
+        </div>
+
+        <div class="stats">
+            <div class="stat">
+                <div class="stat-number">1M+</div>
+                <div class="stat-label">Global Users</div>
+            </div>
+            <div class="stat">
+                <div class="stat-number">24/7</div>
+                <div class="stat-label">Service</div>
+            </div>
+            <div class="stat">
+                <div class="stat-number">50+</div>
+                <div class="stat-label">Countries</div>
+            </div>
+        </div>
+
+        <div class="features">
+            <div class="feature">
+                <div class="feature-icon">🚀</div>
+                <div class="feature-text">Lightning Fast Delivery</div>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">🏆</div>
+                <div class="feature-text">Premium Quality Guaranteed</div>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">💳</div>
+                <div class="feature-text">Secure Global Payments</div>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">📱</div>
+                <div class="feature-text">Cross-Platform Experience</div>
+            </div>
+        </div>
+
+        <div class="buttons">
+            <a href="app-premium.html" class="btn">🌐 Launch Web App</a>
+            <a href="https://t.me/JomeBurgerbot_bot" class="btn btn-secondary" target="_blank">🤖 Open Telegram Bot</a>
+        </div>
+    </div>
+
+    <script>
+        // 🌍 Global Platform Analytics
+        console.log('🍔 Jomeburger Global Platform - Real Production System');
+        console.log('👥 Built for millions of users worldwide');
+        console.log('🚀 Enterprise-grade architecture');
+        
+        // Track page load for global analytics
+        if (typeof gtag !== 'undefined') {
+            gtag('event', 'page_view', {
+                page_title: 'Jomeburger Global Landing',
+                page_location: window.location.href
+            });
+        }
+        
+        // Progressive Web App features
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/sw.js').catch(console.error);
+        }
+        
+        // Global performance monitoring
+        window.addEventListener('load', () => {
+            const loadTime = performance.now();
+            console.log(`⚡ Page loaded in ${Math.round(loadTime)}ms - Global Performance Optimized`);
+        });
+    </script>
+</body>
+</html>
