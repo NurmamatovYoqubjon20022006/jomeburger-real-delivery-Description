@@ -11,7 +11,9 @@ on:
     branches:
       - main
     paths:
-      - 'web/**'  # Only deploy when web files change
+      - '*.html'  # Deploy when HTML files change
+      - '*.css'   # Deploy when CSS files change
+      - '*.js'    # Deploy when JS files change
   workflow_dispatch:  # Allow manual deployment trigger
 
 # Security permissions for GitHub Pages deployment
@@ -42,7 +44,7 @@ jobs:
       - name: ⚙️ Setup GitHub Pages
         uses: actions/configure-pages@v4
 
-      # Step 3: Copy web files to build directory
+      # Step 3: Prepare web files for deployment
       - name: 🔧 Prepare Web Files
         run: |
           echo "🍔 Preparing Jomeburger web assets for production deployment..."
@@ -50,13 +52,26 @@ jobs:
           # Create build directory for GitHub Pages
           mkdir -p _site
           
-          # Copy all web files to build directory
-          cp -r web/* _site/
+          # Copy HTML files from root directory
+          cp *.html _site/ 2>/dev/null || echo "No HTML files found"
+          
+          # Copy any CSS/JS files if they exist
+          cp *.css _site/ 2>/dev/null || echo "No CSS files found"
+          cp *.js _site/ 2>/dev/null || echo "No JS files found"
+          
+          # Ensure super_app.html is the main file
+          if [ -f "super_app.html" ]; then
+            cp super_app.html _site/
+            echo "✅ super_app.html copied successfully"
+          else
+            echo "❌ Error: super_app.html not found"
+            exit 1
+          fi
           
           # Ensure index.html exists (GitHub Pages requirement)
           if [ ! -f "_site/index.html" ]; then
-            echo "❌ Error: index.html not found in web directory"
-            exit 1
+            echo "⚠️ Warning: index.html not found, creating redirect to super_app.html"
+            echo '<!DOCTYPE html><html><head><meta http-equiv="refresh" content="0;url=super_app.html"></head><body>Redirecting...</body></html>' > _site/index.html
           fi
           
           # Add deployment timestamp for debugging
