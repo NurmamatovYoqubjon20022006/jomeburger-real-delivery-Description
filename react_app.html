@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>🍔 Jomeburger - React Super App</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    
+    <!-- React & Babel CDN for JSX -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Modern CSS Framework -->
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #1a1a1a;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+        
+        #react-root {
+            min-height: 100vh;
+        }
+        
+        /* Modern Button Styles */
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 14px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #ff6b35, #ffa726);
+            color: white;
+            box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3);
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 107, 53, 0.4);
+        }
+        
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        /* Card Styles */
+        .card {
+            background: white;
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+        }
+        
+        /* Grid Layouts */
+        .grid {
+            display: grid;
+            gap: 20px;
+        }
+        
+        .grid-2 {
+            grid-template-columns: repeat(2, 1fr);
+        }
+        
+        .grid-3 {
+            grid-template-columns: repeat(3, 1fr);
+        }
+        
+        .grid-auto {
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        }
+        
+        /* Flexbox utilities */
+        .flex {
+            display: flex;
+        }
+        
+        .flex-col {
+            flex-direction: column;
+        }
+        
+        .items-center {
+            align-items: center;
+        }
+        
+        .justify-between {
+            justify-content: space-between;
+        }
+        
+        .justify-center {
+            justify-content: center;
+        }
+        
+        .gap-4 {
+            gap: 16px;
+        }
+        
+        /* Text styles */
+        .text-xl {
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+        
+        .text-2xl {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+        
+        .text-3xl {
+            font-size: 1.875rem;
+            font-weight: 800;
+        }
+        
+        .text-gray {
+            color: #6b7280;
+        }
+        
+        .text-white {
+            color: white;
+        }
+        
+        /* Spacing */
+        .p-4 { padding: 16px; }
+        .p-6 { padding: 24px; }
+        .m-4 { margin: 16px; }
+        .mb-4 { margin-bottom: 16px; }
+        .mt-4 { margin-top: 16px; }
+        
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        
+        .animate-fadeIn {
+            animation: fadeIn 0.6s ease-out;
+        }
+        
+        .animate-slideIn {
+            animation: slideIn 0.5s ease-out;
+        }
+        
+        /* Loading spinner */
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #ff6b35;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .grid-3 {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .grid-2 {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .grid-3 {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="react-root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect, useCallback } = React;
+
+        // 🎯 Telegram WebApp Integration
+        const tg = window.Telegram?.WebApp;
+        if (tg) {
+            tg.ready();
+            tg.expand();
+            tg.MainButton.hide();
+        }
+
+        // 🗄️ Restaurant Database
+        const RESTAURANT_DATA = [
+            {
+                id: 1,
+                name: "Jomeburger Premium",
+                category: "fastfood",
+                rating: 4.8,
+                deliveryTime: "20-30",
+                status: "open",
+                image: "🍔",
+                badge: "PREMIUM",
+                description: "Eng mazali va sifatli burgerlar",
+                isPopular: true,
+                isFast: true,
+                hasOffers: true,
+                menu: [
+                    { id: 101, name: "Big Jome Burger", price: 35000, image: "🍔" },
+                    { id: 102, name: "Cheese Deluxe", price: 32000, image: "🧀" },
+                    { id: 103, name: "BBQ Chicken", price: 30000, image: "🐔" }
+                ]
+            },
+            {
+                id: 2,
+                name: "Pizza Palace",
+                category: "pizza",
+                rating: 4.9,
+                deliveryTime: "25-35",
+                status: "open",
+                image: "🍕",
+                badge: "BEST",
+                description: "Italyan an'analariga ko'ra pizza",
+                isPopular: true,
+                hasOffers: true,
+                menu: [
+                    { id: 201, name: "Margherita", price: 45000, image: "🍕" },
+                    { id: 202, name: "Pepperoni", price: 55000, image: "🍕" },
+                    { id: 203, name: "Hawaiian", price: 60000, image: "🍍" }
+                ]
+            },
+            {
+                id: 3,
+                name: "O'zbek Oshxonasi",
+                category: "national",
+                rating: 4.7,
+                deliveryTime: "35-45",
+                status: "open",
+                image: "🍛",
+                badge: "TRADITIONAL",
+                description: "An'anaviy o'zbek taomlari",
+                isPopular: true,
+                menu: [
+                    { id: 301, name: "Toshkent Oshi", price: 28000, image: "🍚" },
+                    { id: 302, name: "Manti", price: 32000, image: "🥟" },
+                    { id: 303, name: "Lag'mon", price: 25000, image: "🍜" }
+                ]
+            }
+        ];
+
+        // 🎨 Header Component
+        const Header = () => (
+            <div className="animate-fadeIn" style={{
+                background: 'linear-gradient(135deg, #ff6b35 0%, #ffa726 100%)',
+                color: 'white',
+                padding: '30px 20px',
+                textAlign: 'center',
+                position: 'relative',
+                overflow: 'hidden'
+            }}>
+                <div style={{
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    bottom: 0,
+                    background: 'url("data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 1000 100\'%3E%3Cpath d=\'M0,50 Q250,0 500,50 T1000,50 L1000,100 L0,100 Z\' fill=\'rgba(255,255,255,0.1)\'/%3E%3C/svg%3E") no-repeat center bottom',
+                    backgroundSize: 'cover'
+                }}></div>
+                <div style={{ position: 'relative', zIndex: 2 }}>
+                    <h1 className="text-3xl mb-4">🍔 Jomeburger React</h1>
+                    <p className="text-xl">Professional Food Delivery Super App</p>
+                    <div className="flex items-center justify-center gap-4 mt-4">
+                        <span>📍 Toshkent, O'zbekiston</span>
+                        <span>⏰ 24/7</span>
+                    </div>
+                </div>
+            </div>
+        );
+
+        // 🔍 Search Component
+        const SearchBar = ({ onSearch }) => {
+            const [query, setQuery] = useState('');
+
+            const handleSearch = useCallback((e) => {
+                const value = e.target.value;
+                setQuery(value);
+                onSearch(value);
+            }, [onSearch]);
+
+            return (
+                <div className="p-4 animate-slideIn">
+                    <div style={{ position: 'relative' }}>
+                        <input
+                            type="text"
+                            placeholder="🔍 Taom, restoran yoki kategoriya qidiring..."
+                            value={query}
+                            onChange={handleSearch}
+                            style={{
+                                width: '100%',
+                                padding: '16px 20px',
+                                borderRadius: '25px',
+                                border: '2px solid #f1f3f4',
+                                fontSize: '16px',
+                                background: 'white',
+                                transition: 'all 0.3s ease'
+                            }}
+                            onFocus={(e) => {
+                                e.target.style.borderColor = '#ff6b35';
+                                e.target.style.boxShadow = '0 4px 15px rgba(255, 107, 53, 0.1)';
+                            }}
+                            onBlur={(e) => {
+                                e.target.style.borderColor = '#f1f3f4';
+                                e.target.style.boxShadow = 'none';
+                            }}
+                        />
+                    </div>
+                </div>
+            );
+        };
+
+        // 🏷️ Categories Component
+        const Categories = ({ activeCategory, onCategoryChange }) => {
+            const categories = [
+                { id: 'all', name: 'Barchasi', icon: '🍽️' },
+                { id: 'fastfood', name: 'Fastfud', icon: '🍔' },
+                { id: 'pizza', name: 'Pizza', icon: '🍕' },
+                { id: 'national', name: 'Milliy', icon: '🍛' },
+                { id: 'drinks', name: 'Ichimlik', icon: '🥤' },
+                { id: 'desserts', name: 'Desert', icon: '🍰' }
+            ];
+
+            return (
+                <div className="p-4">
+                    <h2 className="text-2xl mb-4">Kategoriyalar</h2>
+                    <div className="grid grid-3 gap-4">
+                        {categories.map((category, index) => (
+                            <div
+                                key={category.id}
+                                className={`card cursor-pointer transition-all duration-300 ${
+                                    activeCategory === category.id ? 'bg-gradient-to-r from-orange-400 to-orange-500 text-white' : ''
+                                }`}
+                                style={{
+                                    animationDelay: `${index * 0.1}s`,
+                                    background: activeCategory === category.id ? 
+                                        'linear-gradient(135deg, #ff6b35, #ffa726)' : 'white'
+                                }}
+                                onClick={() => onCategoryChange(category.id)}
+                            >
+                                <div className="text-center">
+                                    <div style={{ fontSize: '40px', marginBottom: '10px' }}>
+                                        {category.icon}
+                                    </div>
+                                    <div className="text-xl">{category.name}</div>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            );
+        };
+
+        // 🏪 Restaurant Card Component
+        const RestaurantCard = ({ restaurant, onClick }) => (
+            <div 
+                className="card cursor-pointer animate-fadeIn"
+                onClick={() => onClick(restaurant)}
+                style={{
+                    transition: 'all 0.3s ease',
+                    overflow: 'hidden'
+                }}
+            >
+                {/* Restaurant Image */}
+                <div style={{
+                    width: '100%',
+                    height: '160px',
+                    background: 'linear-gradient(135deg, #ff6b35, #ffa726)',
+                    borderRadius: '15px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    fontSize: '60px',
+                    color: 'white',
+                    marginBottom: '20px',
+                    position: 'relative',
+                    overflow: 'hidden'
+                }}>
+                    {restaurant.image}
+                    <div style={{
+                        position: 'absolute',
+                        top: '10px',
+                        left: '10px',
+                        background: 'rgba(255,255,255,0.9)',
+                        color: '#ff6b35',
+                        padding: '4px 12px',
+                        borderRadius: '15px',
+                        fontSize: '12px',
+                        fontWeight: 'bold'
+                    }}>
+                        {restaurant.badge}
+                    </div>
+                </div>
+
+                {/* Restaurant Info */}
+                <div>
+                    <div className="flex justify-between items-start mb-3">
+                        <div>
+                            <h3 className="text-xl mb-1">{restaurant.name}</h3>
+                            <p className="text-gray">{restaurant.description}</p>
+                        </div>
+                        <div style={{
+                            background: restaurant.status === 'open' ? '#4CAF50' : '#f44336',
+                            color: 'white',
+                            padding: '4px 12px',
+                            borderRadius: '15px',
+                            fontSize: '12px',
+                            fontWeight: 'bold'
+                        }}>
+                            {restaurant.status === 'open' ? 'OCHIQ' : 'YOPIQ'}
+                        </div>
+                    </div>
+
+                    <div className="flex items-center gap-4">
+                        <div className="flex items-center gap-1">
+                            <span style={{ color: '#ffb400' }}>⭐</span>
+                            <span>{restaurant.rating}</span>
+                        </div>
+                        <div className="flex items-center gap-1">
+                            <span>🕐</span>
+                            <span>{restaurant.deliveryTime} min</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        );
+
+        // 📋 Restaurant List Component
+        const RestaurantList = ({ restaurants, onRestaurantClick }) => (
+            <div className="p-4">
+                <h2 className="text-2xl mb-4">Restoranlar</h2>
+                {restaurants.length === 0 ? (
+                    <div className="text-center p-6">
+                        <div style={{ fontSize: '60px', marginBottom: '20px' }}>🔍</div>
+                        <h3 className="text-xl mb-2">Hech narsa topilmadi</h3>
+                        <p className="text-gray">Boshqa kategoriya tanlang</p>
+                    </div>
+                ) : (
+                    <div className="grid grid-auto gap-6">
+                        {restaurants.map(restaurant => (
+                            <RestaurantCard
+                                key={restaurant.id}
+                                restaurant={restaurant}
+                                onClick={onRestaurantClick}
+                            />
+                        ))}
+                    </div>
+                )}
+            </div>
+        );
+
+        // 📱 Bottom Navigation Component
+        const BottomNav = ({ activePage, onPageChange }) => {
+            const navItems = [
+                { id: 'home', icon: '🏠', label: 'Bosh sahifa' },
+                { id: 'search', icon: '🔍', label: 'Qidiruv' },
+                { id: 'orders', icon: '📋', label: 'Buyurtmalar' },
+                { id: 'profile', icon: '👤', label: 'Profil' }
+            ];
+
+            return (
+                <div style={{
+                    position: 'fixed',
+                    bottom: 0,
+                    left: 0,
+                    right: 0,
+                    background: 'white',
+                    padding: '15px',
+                    boxShadow: '0 -4px 20px rgba(0,0,0,0.1)',
+                    display: 'flex',
+                    justifyContent: 'space-around',
+                    alignItems: 'center',
+                    zIndex: 1000
+                }}>
+                    {navItems.map(item => (
+                        <div
+                            key={item.id}
+                            className={`flex flex-col items-center gap-1 cursor-pointer p-2 rounded-lg transition-all duration-300 ${
+                                activePage === item.id ? 'bg-orange-100 text-orange-500' : 'text-gray-600'
+                            }`}
+                            onClick={() => onPageChange(item.id)}
+                        >
+                            <span style={{ fontSize: '20px' }}>{item.icon}</span>
+                            <span style={{ fontSize: '12px', fontWeight: '600' }}>{item.label}</span>
+                        </div>
+                    ))}
+                </div>
+            );
+        };
+
+        // 🛒 Cart FAB Component
+        const CartFAB = ({ itemCount, onClick }) => (
+            <div
+                className="cursor-pointer"
+                style={{
+                    position: 'fixed',
+                    bottom: '90px',
+                    right: '20px',
+                    width: '60px',
+                    height: '60px',
+                    background: 'linear-gradient(135deg, #ff6b35, #ffa726)',
+                    borderRadius: '50%',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    color: 'white',
+                    fontSize: '24px',
+                    boxShadow: '0 6px 20px rgba(255, 107, 53, 0.4)',
+                    zIndex: 999,
+                    transition: 'all 0.3s ease'
+                }}
+                onClick={onClick}
+                onMouseEnter={(e) => {
+                    e.target.style.transform = 'scale(1.1)';
+                }}
+                onMouseLeave={(e) => {
+                    e.target.style.transform = 'scale(1)';
+                }}
+            >
+                🛒
+                {itemCount > 0 && (
+                    <div style={{
+                        position: 'absolute',
+                        top: '-8px',
+                        right: '-8px',
+                        background: '#e74c3c',
+                        color: 'white',
+                        borderRadius: '50%',
+                        width: '24px',
+                        height: '24px',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        fontSize: '12px',
+                        fontWeight: 'bold'
+                    }}>
+                        {itemCount}
+                    </div>
+                )}
+            </div>
+        );
+
+        // 🍔 Main App Component
+        const JomeburgerApp = () => {
+            const [restaurants, setRestaurants] = useState(RESTAURANT_DATA);
+            const [filteredRestaurants, setFilteredRestaurants] = useState(RESTAURANT_DATA);
+            const [activeCategory, setActiveCategory] = useState('all');
+            const [activePage, setActivePage] = useState('home');
+            const [cartItems, setCartItems] = useState([]);
+            const [isLoading, setIsLoading] = useState(false);
+
+            // Filter restaurants by category
+            const handleCategoryChange = useCallback((category) => {
+                setActiveCategory(category);
+                setIsLoading(true);
+                
+                setTimeout(() => {
+                    if (category === 'all') {
+                        setFilteredRestaurants(restaurants);
+                    } else {
+                        setFilteredRestaurants(
+                            restaurants.filter(r => r.category === category)
+                        );
+                    }
+                    setIsLoading(false);
+                }, 300);
+            }, [restaurants]);
+
+            // Handle search
+            const handleSearch = useCallback((query) => {
+                if (!query.trim()) {
+                    handleCategoryChange(activeCategory);
+                    return;
+                }
+
+                const filtered = restaurants.filter(restaurant =>
+                    restaurant.name.toLowerCase().includes(query.toLowerCase()) ||
+                    restaurant.description.toLowerCase().includes(query.toLowerCase())
+                );
+                setFilteredRestaurants(filtered);
+            }, [restaurants, activeCategory, handleCategoryChange]);
+
+            // Handle restaurant click
+            const handleRestaurantClick = useCallback((restaurant) => {
+                if (restaurant.status === 'closed') {
+                    alert(`${restaurant.name} hozir yopiq!`);
+                    return;
+                }
+
+                const menuInfo = restaurant.menu.slice(0, 3).map(item => 
+                    `${item.image} ${item.name} - ${item.price.toLocaleString()} so'm`
+                ).join('\n');
+
+                alert(`🍽️ ${restaurant.name}\n\n⭐ ${restaurant.rating} • 🕐 ${restaurant.deliveryTime} min\n\n📋 Mashhur taomlar:\n${menuInfo}\n\nTo'liq menyu tez orada...`);
+            }, []);
+
+            // Handle navigation
+            const handlePageChange = useCallback((page) => {
+                setActivePage(page);
+                
+                switch(page) {
+                    case 'search':
+                        // Focus search input
+                        break;
+                    case 'orders':
+                        alert('📋 Buyurtmalar sahifasi tez orada!');
+                        break;
+                    case 'profile':
+                        alert('👤 Profil sahifasi tez orada!');
+                        break;
+                    default:
+                        setActiveCategory('all');
+                        setFilteredRestaurants(restaurants);
+                }
+            }, [restaurants]);
+
+            // Handle cart
+            const handleCartClick = useCallback(() => {
+                if (cartItems.length === 0) {
+                    alert('🛒 Savatingiz bo\'sh!');
+                    return;
+                }
+                alert('🛒 Savat funksiyasi tez orada!');
+            }, [cartItems]);
+
+            return (
+                <div style={{ minHeight: '100vh', paddingBottom: '80px' }}>
+                    <Header />
+                    <SearchBar onSearch={handleSearch} />
+                    <Categories 
+                        activeCategory={activeCategory} 
+                        onCategoryChange={handleCategoryChange} 
+                    />
+                    
+                    {isLoading ? (
+                        <div className="flex justify-center items-center p-6">
+                            <div className="spinner"></div>
+                        </div>
+                    ) : (
+                        <RestaurantList 
+                            restaurants={filteredRestaurants}
+                            onRestaurantClick={handleRestaurantClick}
+                        />
+                    )}
+
+                    <CartFAB 
+                        itemCount={cartItems.length}
+                        onClick={handleCartClick}
+                    />
+                    
+                    <BottomNav 
+                        activePage={activePage}
+                        onPageChange={handlePageChange}
+                    />
+                </div>
+            );
+        };
+
+        // 🚀 Render App
+        ReactDOM.render(<JomeburgerApp />, document.getElementById('react-root'));
+
+        // 📱 Telegram WebApp Integration
+        if (tg) {
+            tg.onEvent('backButtonClicked', () => {
+                tg.close();
+            });
+
+            window.sendDataToBot = function(data) {
+                if (tg.sendData) {
+                    tg.sendData(JSON.stringify(data));
+                }
+            };
+        }
+
+        console.log('🚀 Jomeburger React App loaded successfully!');
+    </script>
+</body>
+</html>

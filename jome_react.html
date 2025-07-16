@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>🍔 Jomeburger - React JSX Super App</title>
+    
+    <!-- React & Babel CDN -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    
+    <!-- Telegram WebApp -->
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    
+    <!-- Material Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #1a1a1a;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+        
+        #root {
+            min-height: 100vh;
+        }
+        
+        /* Beautiful gradient backgrounds */
+        .gradient-primary {
+            background: linear-gradient(135deg, #ff6b35 0%, #ff8c42 50%, #ffa726 100%);
+        }
+        
+        .gradient-secondary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .gradient-success {
+            background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+        }
+        
+        .gradient-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        /* Material Design shadows */
+        .shadow-sm { box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .shadow-md { box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        .shadow-lg { box-shadow: 0 10px 15px rgba(0,0,0,0.1); }
+        .shadow-xl { box-shadow: 0 20px 25px rgba(0,0,0,0.1); }
+        
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes slideIn {
+            from { transform: translateX(-100%); }
+            to { transform: translateX(0); }
+        }
+        
+        @keyframes bounce {
+            0%, 20%, 53%, 80%, 100% { transform: translate3d(0,0,0); }
+            40%, 43% { transform: translate3d(0,-30px,0); }
+            70% { transform: translate3d(0,-15px,0); }
+            90% { transform: translate3d(0,-4px,0); }
+        }
+        
+        .animate-fadeIn { animation: fadeIn 0.6s ease-out; }
+        .animate-slideIn { animation: slideIn 0.5s ease-out; }
+        .animate-bounce { animation: bounce 1s infinite; }
+        
+        /* Utility classes */
+        .flex { display: flex; }
+        .items-center { align-items: center; }
+        .justify-center { justify-content: center; }
+        .justify-between { justify-content: space-between; }
+        .flex-col { flex-direction: column; }
+        .w-full { width: 100%; }
+        .h-full { height: 100%; }
+        .text-center { text-align: center; }
+        .font-bold { font-weight: bold; }
+        .font-semibold { font-weight: 600; }
+        .text-white { color: white; }
+        .text-primary { color: #ff6b35; }
+        .rounded-lg { border-radius: 12px; }
+        .rounded-xl { border-radius: 16px; }
+        .rounded-2xl { border-radius: 20px; }
+        .rounded-full { border-radius: 50%; }
+        .cursor-pointer { cursor: pointer; }
+        .transition-all { transition: all 0.3s ease; }
+        .hover-scale:hover { transform: scale(1.05); }
+        .hover-translate:hover { transform: translateY(-2px); }
+        
+        /* Custom components */
+        .btn {
+            padding: 12px 24px;
+            border-radius: 12px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #ff6b35, #ffa726);
+            color: white;
+            box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3);
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255, 107, 53, 0.4);
+        }
+        
+        .card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        
+        /* Icons */
+        .icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .icon-sm { width: 20px; height: 20px; font-size: 20px; }
+        .icon-md { width: 24px; height: 24px; font-size: 24px; }
+        .icon-lg { width: 32px; height: 32px; font-size: 32px; }
+        .icon-xl { width: 48px; height: 48px; font-size: 48px; }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect, useCallback } = React;
+
+        // 🎯 Global State Management
+        const AppContext = React.createContext();
+
+        // 🏪 Restaurant Data
+        const RESTAURANTS_DATA = [
+            {
+                id: 1,
+                name: "Jomeburger Premium",
+                category: "fastfood",
+                rating: 4.9,
+                deliveryTime: "15-25",
+                status: "open",
+                image: "🍔",
+                gradient: "from-red-400 to-orange-500",
+                description: "Premium burgerlar va yangi ta'mlar",
+                isPopular: true,
+                isFeatured: true,
+                menu: [
+                    { id: 101, name: "Big Jome Burger", price: 45000, image: "🍔", category: "burger" },
+                    { id: 102, name: "Cheese Royal", price: 42000, image: "🧀", category: "burger" },
+                    { id: 103, name: "BBQ Chicken", price: 38000, image: "🐔", category: "chicken" }
+                ]
+            },
+            {
+                id: 2,
+                name: "Pizza Italiano",
+                category: "pizza",
+                rating: 4.8,
+                deliveryTime: "25-35",
+                status: "open",
+                image: "🍕",
+                gradient: "from-yellow-400 to-red-500",
+                description: "Italyan an'analariga ko'ra pizza",
+                isPopular: true,
+                isFeatured: true,
+                menu: [
+                    { id: 201, name: "Margherita Supreme", price: 55000, image: "🍕", category: "pizza" },
+                    { id: 202, name: "Pepperoni Deluxe", price: 65000, image: "🍕", category: "pizza" },
+                    { id: 203, name: "Four Cheese", price: 70000, image: "🧀", category: "pizza" }
+                ]
+            },
+            {
+                id: 3,
+                name: "O'zbek Oshxonasi",
+                category: "national",
+                rating: 4.7,
+                deliveryTime: "30-40",
+                status: "open",
+                image: "🍛",
+                gradient: "from-green-400 to-blue-500",
+                description: "An'anaviy o'zbek taomlari",
+                isPopular: false,
+                isFeatured: true,
+                menu: [
+                    { id: 301, name: "Toshkent Oshi", price: 35000, image: "🍚", category: "rice" },
+                    { id: 302, name: "Manti", price: 40000, image: "🥟", category: "steamed" },
+                    { id: 303, name: "Lagmon", price: 32000, image: "🍜", category: "soup" }
+                ]
+            },
+            {
+                id: 4,
+                name: "Fresh Drinks Bar",
+                category: "drinks",
+                rating: 4.6,
+                deliveryTime: "10-15",
+                status: "open",
+                image: "🥤",
+                gradient: "from-blue-400 to-purple-500",
+                description: "Yangi ichimliklar va smoothie",
+                isPopular: true,
+                isFeatured: false,
+                menu: [
+                    { id: 401, name: "Tropical Smoothie", price: 25000, image: "🥭", category: "smoothie" },
+                    { id: 402, name: "Fresh Orange", price: 18000, image: "🍊", category: "juice" },
+                    { id: 403, name: "Green Detox", price: 28000, image: "🥬", category: "healthy" }
+                ]
+            }
+        ];
+
+        // 🎨 Icons Component
+        const Icon = ({ name, className = "", ...props }) => {
+            const iconMap = {
+                home: "🏠",
+                search: "🔍",
+                cart: "🛒",
+                profile: "👤",
+                star: "⭐",
+                time: "⏰",
+                location: "📍",
+                phone: "📞",
+                heart: "❤️",
+                fire: "🔥",
+                new: "✨",
+                delivery: "🚚",
+                payment: "💳",
+                menu: "📋",
+                close: "✖️",
+                check: "✅",
+                arrow_right: "➡️",
+                arrow_left: "⬅️",
+                plus: "➕",
+                minus: "➖"
+            };
+            
+            return (
+                <span className={`icon ${className}`} {...props}>
+                    {iconMap[name] || name}
+                </span>
+            );
+        };
+
+        // 🎯 Header Component
+        const Header = ({ onSearchFocus }) => {
+            return (
+                <div className="gradient-primary text-white p-6 pb-8 animate-fadeIn">
+                    <div className="flex justify-between items-center mb-6">
+                        <div>
+                            <h1 className="text-2xl font-bold mb-1">🍔 Jomeburger</h1>
+                            <p className="text-orange-100 text-sm">React JSX Super App</p>
+                        </div>
+                        <div className="flex items-center gap-3">
+                            <Icon name="location" className="text-orange-200" />
+                            <span className="text-sm">Toshkent</span>
+                        </div>
+                    </div>
+                    
+                    <div className="relative">
+                        <input
+                            type="text"
+                            placeholder="Taom, restoran qidiring..."
+                            className="w-full p-4 pr-12 rounded-xl bg-white/20 backdrop-blur-md border border-white/30 text-white placeholder-orange-200 focus:outline-none focus:ring-2 focus:ring-orange-300"
+                            onFocus={onSearchFocus}
+                        />
+                        <Icon name="search" className="absolute right-4 top-4 text-orange-200" />
+                    </div>
+                </div>
+            );
+        };
+
+        // 🎯 Category Filters
+        const CategoryFilters = ({ activeCategory, onCategoryChange }) => {
+            const categories = [
+                { id: 'all', name: 'Barchasi', icon: '🍽️', color: 'bg-gradient-to-r from-purple-500 to-pink-500' },
+                { id: 'fastfood', name: 'Fast Food', icon: '🍔', color: 'bg-gradient-to-r from-red-500 to-orange-500' },
+                { id: 'pizza', name: 'Pizza', icon: '🍕', color: 'bg-gradient-to-r from-yellow-500 to-red-500' },
+                { id: 'national', name: 'Milliy', icon: '🍛', color: 'bg-gradient-to-r from-green-500 to-blue-500' },
+                { id: 'drinks', name: 'Ichimlik', icon: '🥤', color: 'bg-gradient-to-r from-blue-500 to-purple-500' }
+            ];
+
+            return (
+                <div className="px-4 py-4 animate-slideIn">
+                    <div className="flex gap-3 overflow-x-auto pb-2">
+                        {categories.map((category) => (
+                            <button
+                                key={category.id}
+                                onClick={() => onCategoryChange(category.id)}
+                                className={`
+                                    flex items-center gap-2 px-4 py-3 rounded-xl whitespace-nowrap font-semibold text-sm transition-all
+                                    ${activeCategory === category.id 
+                                        ? `${category.color} text-white shadow-lg transform scale-105` 
+                                        : 'bg-white text-gray-600 hover:bg-gray-50'
+                                    }
+                                `}
+                            >
+                                <span className="text-lg">{category.icon}</span>
+                                <span>{category.name}</span>
+                            </button>
+                        ))}
+                    </div>
+                </div>
+            );
+        };
+
+        // 🎯 Restaurant Card Component
+        const RestaurantCard = ({ restaurant, onClick }) => {
+            return (
+                <div 
+                    className="card p-6 m-4 cursor-pointer hover-translate animate-fadeIn"
+                    onClick={onClick}
+                >
+                    {/* Restaurant Image & Badge */}
+                    <div className="relative mb-4">
+                        <div className={`w-full h-40 rounded-xl bg-gradient-to-br ${restaurant.gradient} flex items-center justify-center text-6xl mb-4 overflow-hidden relative`}>
+                            <span className="relative z-10">{restaurant.image}</span>
+                            <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent"></div>
+                        </div>
+                        
+                        {restaurant.isFeatured && (
+                            <div className="absolute top-3 left-3 bg-red-500 text-white px-3 py-1 rounded-full text-xs font-bold animate-bounce">
+                                <Icon name="fire" className="mr-1" />
+                                FEATURED
+                            </div>
+                        )}
+                        
+                        <div className={`absolute top-3 right-3 px-3 py-1 rounded-full text-xs font-bold text-white ${
+                            restaurant.status === 'open' ? 'bg-green-500' : 'bg-red-500'
+                        }`}>
+                            {restaurant.status === 'open' ? 'OCHIQ' : 'YOPIQ'}
+                        </div>
+                    </div>
+
+                    {/* Restaurant Info */}
+                    <div>
+                        <div className="flex justify-between items-start mb-2">
+                            <h3 className="text-xl font-bold text-gray-800">{restaurant.name}</h3>
+                            {restaurant.isPopular && (
+                                <span className="text-yellow-500 animate-bounce">🔥</span>
+                            )}
+                        </div>
+                        
+                        <p className="text-gray-600 text-sm mb-4">{restaurant.description}</p>
+                        
+                        <div className="flex items-center justify-between">
+                            <div className="flex items-center gap-4">
+                                <div className="flex items-center gap-1">
+                                    <Icon name="star" className="text-yellow-500" />
+                                    <span className="font-semibold text-gray-800">{restaurant.rating}</span>
+                                </div>
+                                
+                                <div className="flex items-center gap-1 text-gray-600">
+                                    <Icon name="time" />
+                                    <span className="text-sm">{restaurant.deliveryTime} min</span>
+                                </div>
+                            </div>
+                            
+                            <button className="btn btn-primary">
+                                Ko'rish <Icon name="arrow_right" />
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            );
+        };
+
+        // 🎯 Restaurant Menu Component
+        const RestaurantMenu = ({ restaurant, onBack, onAddToCart }) => {
+            const [selectedItems, setSelectedItems] = useState([]);
+
+            const addToCart = (item) => {
+                setSelectedItems(prev => [...prev, item.id]);
+                onAddToCart(item);
+                
+                // Remove animation class after animation
+                setTimeout(() => {
+                    setSelectedItems(prev => prev.filter(id => id !== item.id));
+                }, 600);
+            };
+
+            return (
+                <div className="animate-fadeIn">
+                    {/* Restaurant Header */}
+                    <div className={`bg-gradient-to-br ${restaurant.gradient} text-white p-6`}>
+                        <button 
+                            onClick={onBack}
+                            className="mb-4 flex items-center gap-2 text-white/80 hover:text-white"
+                        >
+                            <Icon name="arrow_left" />
+                            <span>Ortga</span>
+                        </button>
+                        
+                        <div className="flex items-center gap-4 mb-4">
+                            <span className="text-5xl">{restaurant.image}</span>
+                            <div>
+                                <h1 className="text-2xl font-bold">{restaurant.name}</h1>
+                                <p className="text-white/80">{restaurant.description}</p>
+                            </div>
+                        </div>
+                        
+                        <div className="flex gap-4">
+                            <div className="flex items-center gap-1">
+                                <Icon name="star" />
+                                <span>{restaurant.rating}</span>
+                            </div>
+                            <div className="flex items-center gap-1">
+                                <Icon name="time" />
+                                <span>{restaurant.deliveryTime} min</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Menu Items */}
+                    <div className="p-4">
+                        <h2 className="text-xl font-bold mb-4 text-gray-800">Menu</h2>
+                        <div className="space-y-4">
+                            {restaurant.menu.map((item) => (
+                                <div key={item.id} className="card p-4">
+                                    <div className="flex items-center gap-4">
+                                        <span className="text-3xl">{item.image}</span>
+                                        <div className="flex-1">
+                                            <h3 className="font-semibold text-gray-800">{item.name}</h3>
+                                            <p className="text-primary font-bold">{item.price.toLocaleString()} so'm</p>
+                                        </div>
+                                        <button
+                                            onClick={() => addToCart(item)}
+                                            className={`btn transition-all ${
+                                                selectedItems.includes(item.id)
+                                                    ? 'bg-green-500 text-white animate-bounce'
+                                                    : 'btn-primary'
+                                            }`}
+                                        >
+                                            {selectedItems.includes(item.id) ? (
+                                                <>
+                                                    <Icon name="check" />
+                                                    Qo'shildi
+                                                </>
+                                            ) : (
+                                                <>
+                                                    <Icon name="plus" />
+                                                    Qo'shish
+                                                </>
+                                            )}
+                                        </button>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </div>
+            );
+        };
+
+        // 🎯 Cart Component
+        const Cart = ({ cartItems, onUpdateQuantity, onRemoveItem, onCheckout }) => {
+            const total = cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+
+            if (cartItems.length === 0) {
+                return (
+                    <div className="flex flex-col items-center justify-center h-96 text-gray-500">
+                        <span className="text-6xl mb-4">🛒</span>
+                        <h3 className="text-xl font-semibold mb-2">Savatingiz bo'sh</h3>
+                        <p>Taom qo'shing va buyurtma bering</p>
+                    </div>
+                );
+            }
+
+            return (
+                <div className="p-4 animate-fadeIn">
+                    <h2 className="text-xl font-bold mb-4 text-gray-800">Savat</h2>
+                    
+                    <div className="space-y-4 mb-6">
+                        {cartItems.map((item) => (
+                            <div key={item.id} className="card p-4">
+                                <div className="flex items-center gap-4">
+                                    <span className="text-2xl">{item.image}</span>
+                                    <div className="flex-1">
+                                        <h3 className="font-semibold text-gray-800">{item.name}</h3>
+                                        <p className="text-primary">{item.price.toLocaleString()} so'm</p>
+                                    </div>
+                                    
+                                    <div className="flex items-center gap-3">
+                                        <button
+                                            onClick={() => onUpdateQuantity(item.id, item.quantity - 1)}
+                                            className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center hover:bg-gray-300"
+                                        >
+                                            <Icon name="minus" />
+                                        </button>
+                                        
+                                        <span className="font-semibold text-lg w-8 text-center">{item.quantity}</span>
+                                        
+                                        <button
+                                            onClick={() => onUpdateQuantity(item.id, item.quantity + 1)}
+                                            className="w-8 h-8 rounded-full bg-orange-500 text-white flex items-center justify-center hover:bg-orange-600"
+                                        >
+                                            <Icon name="plus" />
+                                        </button>
+                                    </div>
+                                    
+                                    <button
+                                        onClick={() => onRemoveItem(item.id)}
+                                        className="text-red-500 hover:text-red-700 ml-2"
+                                    >
+                                        <Icon name="close" />
+                                    </button>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+
+                    {/* Total & Checkout */}
+                    <div className="card p-4 gradient-primary text-white">
+                        <div className="flex justify-between items-center mb-4">
+                            <span className="text-lg font-semibold">Jami:</span>
+                            <span className="text-2xl font-bold">{total.toLocaleString()} so'm</span>
+                        </div>
+                        
+                        <button
+                            onClick={onCheckout}
+                            className="w-full bg-white text-orange-500 font-bold py-3 rounded-xl hover:bg-orange-50 transition-all"
+                        >
+                            <Icon name="payment" className="mr-2" />
+                            Buyurtma berish
+                        </button>
+                    </div>
+                </div>
+            );
+        };
+
+        // 🎯 Bottom Navigation
+        const BottomNav = ({ activeTab, onTabChange, cartCount }) => {
+            const tabs = [
+                { id: 'home', icon: 'home', label: 'Bosh sahifa' },
+                { id: 'search', icon: 'search', label: 'Qidiruv' },
+                { id: 'cart', icon: 'cart', label: 'Savat' },
+                { id: 'profile', icon: 'profile', label: 'Profil' }
+            ];
+
+            return (
+                <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 px-4 py-2 z-50">
+                    <div className="flex justify-around items-center">
+                        {tabs.map((tab) => (
+                            <button
+                                key={tab.id}
+                                onClick={() => onTabChange(tab.id)}
+                                className={`flex flex-col items-center gap-1 py-2 px-3 rounded-lg transition-all ${
+                                    activeTab === tab.id
+                                        ? 'text-orange-500 bg-orange-50'
+                                        : 'text-gray-600 hover:text-gray-800'
+                                }`}
+                            >
+                                <div className="relative">
+                                    <Icon name={tab.icon} className="text-2xl" />
+                                    {tab.id === 'cart' && cartCount > 0 && (
+                                        <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center animate-bounce">
+                                            {cartCount}
+                                        </span>
+                                    )}
+                                </div>
+                                <span className="text-xs font-semibold">{tab.label}</span>
+                            </button>
+                        ))}
+                    </div>
+                </div>
+            );
+        };
+
+        // 🎯 Main App Component
+        const JomeburgerApp = () => {
+            const [activeTab, setActiveTab] = useState('home');
+            const [activeCategory, setActiveCategory] = useState('all');
+            const [selectedRestaurant, setSelectedRestaurant] = useState(null);
+            const [cartItems, setCartItems] = useState([]);
+            const [showNotification, setShowNotification] = useState(false);
+            const [notificationMessage, setNotificationMessage] = useState('');
+
+            // Initialize Telegram WebApp
+            useEffect(() => {
+                if (window.Telegram?.WebApp) {
+                    const tg = window.Telegram.WebApp;
+                    tg.ready();
+                    tg.expand();
+                    tg.MainButton.hide();
+                }
+            }, []);
+
+            // Filter restaurants by category
+            const filteredRestaurants = activeCategory === 'all' 
+                ? RESTAURANTS_DATA 
+                : RESTAURANTS_DATA.filter(r => r.category === activeCategory);
+
+            // Add to cart function
+            const addToCart = useCallback((item) => {
+                setCartItems(prev => {
+                    const existingItem = prev.find(cartItem => cartItem.id === item.id);
+                    if (existingItem) {
+                        return prev.map(cartItem =>
+                            cartItem.id === item.id
+                                ? { ...cartItem, quantity: cartItem.quantity + 1 }
+                                : cartItem
+                        );
+                    }
+                    return [...prev, { ...item, quantity: 1 }];
+                });
+
+                // Show notification
+                setNotificationMessage(`${item.name} savatga qo'shildi!`);
+                setShowNotification(true);
+                setTimeout(() => setShowNotification(false), 2000);
+            }, []);
+
+            // Update cart quantity
+            const updateCartQuantity = useCallback((itemId, newQuantity) => {
+                if (newQuantity <= 0) {
+                    setCartItems(prev => prev.filter(item => item.id !== itemId));
+                } else {
+                    setCartItems(prev =>
+                        prev.map(item =>
+                            item.id === itemId ? { ...item, quantity: newQuantity } : item
+                        )
+                    );
+                }
+            }, []);
+
+            // Remove from cart
+            const removeFromCart = useCallback((itemId) => {
+                setCartItems(prev => prev.filter(item => item.id !== itemId));
+            }, []);
+
+            // Checkout function
+            const handleCheckout = useCallback(() => {
+                const orderData = {
+                    type: 'order',
+                    items: cartItems,
+                    total: cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0),
+                    timestamp: new Date().toISOString()
+                };
+
+                // Send to Telegram bot
+                if (window.Telegram?.WebApp?.sendData) {
+                    window.Telegram.WebApp.sendData(JSON.stringify(orderData));
+                }
+
+                setNotificationMessage('Buyurtma yuborildi! Operator tez orada bog\'lanadi.');
+                setShowNotification(true);
+                setCartItems([]);
+                setTimeout(() => setShowNotification(false), 3000);
+            }, [cartItems]);
+
+            const cartCount = cartItems.reduce((sum, item) => sum + item.quantity, 0);
+
+            // Render content based on active tab
+            const renderContent = () => {
+                if (selectedRestaurant) {
+                    return (
+                        <RestaurantMenu
+                            restaurant={selectedRestaurant}
+                            onBack={() => setSelectedRestaurant(null)}
+                            onAddToCart={addToCart}
+                        />
+                    );
+                }
+
+                switch (activeTab) {
+                    case 'home':
+                        return (
+                            <div>
+                                <Header onSearchFocus={() => setActiveTab('search')} />
+                                <CategoryFilters
+                                    activeCategory={activeCategory}
+                                    onCategoryChange={setActiveCategory}
+                                />
+                                <div className="pb-20">
+                                    {filteredRestaurants.map((restaurant) => (
+                                        <RestaurantCard
+                                            key={restaurant.id}
+                                            restaurant={restaurant}
+                                            onClick={() => setSelectedRestaurant(restaurant)}
+                                        />
+                                    ))}
+                                </div>
+                            </div>
+                        );
+
+                    case 'search':
+                        return (
+                            <div className="p-4 pt-20">
+                                <h2 className="text-xl font-bold mb-4">Qidiruv</h2>
+                                <p className="text-gray-600">Qidiruv funksiyasi tez orada...</p>
+                            </div>
+                        );
+
+                    case 'cart':
+                        return (
+                            <div className="pt-20 pb-20">
+                                <Cart
+                                    cartItems={cartItems}
+                                    onUpdateQuantity={updateCartQuantity}
+                                    onRemoveItem={removeFromCart}
+                                    onCheckout={handleCheckout}
+                                />
+                            </div>
+                        );
+
+                    case 'profile':
+                        return (
+                            <div className="p-4 pt-20">
+                                <h2 className="text-xl font-bold mb-4">Profil</h2>
+                                <p className="text-gray-600">Profil sahifasi tez orada...</p>
+                            </div>
+                        );
+
+                    default:
+                        return null;
+                }
+            };
+
+            return (
+                <div className="min-h-screen bg-gray-50 relative">
+                    {renderContent()}
+                    
+                    <BottomNav
+                        activeTab={activeTab}
+                        onTabChange={setActiveTab}
+                        cartCount={cartCount}
+                    />
+
+                    {/* Notification */}
+                    {showNotification && (
+                        <div className="fixed top-4 left-4 right-4 bg-green-500 text-white p-4 rounded-xl shadow-lg z-50 animate-fadeIn">
+                            <div className="flex items-center gap-2">
+                                <Icon name="check" />
+                                <span>{notificationMessage}</span>
+                            </div>
+                        </div>
+                    )}
+                </div>
+            );
+        };
+
+        // 🚀 Render the app
+        ReactDOM.render(<JomeburgerApp />, document.getElementById('root'));
+    </script>
+</body>
+</html>
